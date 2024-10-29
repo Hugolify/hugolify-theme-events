@@ -1,6 +1,9 @@
 <header class="heading" {{- partial "func/SetAnim" (dict "element" "heading") }}>
+  {{- $events_categories := "events/events_categories.html" -}}
+  {{ if templates.Exists ( printf "partials/%s" $events_categories ) }}
+    {{ partial $events_categories . }}
+  {{ end }}
   {{ with .Title }}
     <h1>{{ partial "func/PrepareHTML" . }}</h1>
   {{ end }}
-  {{ partial "events/metas" . }}
 </header>

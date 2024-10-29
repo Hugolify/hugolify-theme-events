@@ -1,7 +1,0 @@
-<div class="metas">
-  {{- $categories := "events/events_categories.html" -}}
-  {{ if templates.Exists ( printf "partials/%s" $categories ) }}
-    {{ partial $categories . }}
-  {{ end }}
-  {{ partial "commons/share" . }}
-</div>

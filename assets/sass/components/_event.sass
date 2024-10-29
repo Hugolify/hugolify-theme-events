@@ -13,10 +13,9 @@
         @extend .card-footer
         padding-top: 0
     .category
-        &::before
-            content: '—'
-            margin-left: .25rem
-            margin-right: .25rem
+        @extend .badge
+        @extend .text-bg-light
+        margin-bottom: .5rem
     .date
         @extend .badge
         background-color: #fff

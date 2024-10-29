@@ -1,7 +1,12 @@
 .page-events
     .heading
-        h1
-            min-width: 100%
+        flex-direction: column
+        .categories 
+            margin-bottom: .5rem
+            a
+                @extend .badge
+                @extend .text-bg-light
+                text-decoration: none
     .summary
         @extend .card
         .media
@@ -14,6 +19,8 @@
         .btn
             @extend .btn-primary
             white-space: normal
+        .btn + .surtitle
+            margin-top: 1rem
 
     @include media-breakpoint-up(md)
         .grid

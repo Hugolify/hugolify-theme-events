@@ -3,16 +3,11 @@
     "@context": "https://schema.org",
     "@type": "Event",
     {{- with .Title }}
-      "headline": {{ partial "func/PrepareData" . }},
       "name": {{ partial "func/PrepareData" . }},
     {{ end -}}
 
     {{- with .Params.image }}
       "thumbnailUrl": {{ .src | absURL }},
-    {{ end -}}
-
-    {{- with .Date }}
-      "datePublished": {{ . }},
     {{ end -}}
 
     {{- with .Description }}
@@ -22,6 +17,9 @@
     {{- with .Params.event }}
       "startDate": {{ .date_from }},
       "endDate": {{ .date_to }},
+      {{- with .cta }}
+        "offers": {{ .url }},
+      {{ end -}}
     {{ end -}}
 
     {{- range .GetTerms "events_categories" }}
