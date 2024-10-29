@@ -2,19 +2,15 @@
 {{- $the_date := false -}}
 {{- $surtitle := false -}}
 {{- $same_day := false -}}
-{{- $same_month := false -}}
-{{- $same_year := false -}}
 
 {{- with .Params.event }}
   {{- $start_date := .date_from | default false -}}
   {{- $end_date := .date_to | default false -}}
   {{- if and $start_date $end_date -}}
     {{- $same_day = cond (eq (time.Format "2006-01-02" $start_date) (time.Format "2006-01-02" $end_date)) true false -}}
-    {{- $same_month = cond (eq (time.Format "2006-01" $start_date) (time.Format "2006-01" $end_date)) true false -}}
     {{- if $same_day -}}
       {{- $surtitle = "le" -}}
       {{- $the_date = $start_date -}}
-    {{- else if $same_month -}}
     {{- end -}}
   {{- end -}}
   {{- if and (not $start_date) $end_date -}}
@@ -25,7 +21,7 @@
 <div class="summary">
   <div class="content">
     {{- with $surtitle -}}
-      <p class="surtitle">{{ . }}</p>
+      <p class="surtitle">{{ . }} {{ $the_date | time.Format "Monday" }}</p>
     {{- end -}}
 
     {{- with $the_date -}}
@@ -33,6 +29,7 @@
     {{- end -}}
 
     {{ partial "commons/cta" .cta }}
+    
     {{- with .address -}}
       <p class="surtitle">Lieu</p>
       {{ partial "commons/address" (dict "address" . "direction" false) }}
