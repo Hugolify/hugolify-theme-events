@@ -1,0 +1,9 @@
+{{ define "hero"}}
+  {{- partial "events/hero" . -}}
+{{ end }}
+
+{{ define "main" }}
+  {{ partial "events/schema" . }}
+  {{ partial "events/blocks" . }}
+  {{ partial "events/container" . }}
+{{ end }}

@@ -1,0 +1,6 @@
+<header class="heading" {{- partial "func/SetAnim" (dict "element" "heading") }}>
+  {{ with .Title }}
+    <h1>{{ partial "func/PrepareHTML" . }}</h1>
+  {{ end }}
+  {{ partial "events/metas" . }}
+</header>

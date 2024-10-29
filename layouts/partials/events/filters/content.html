@@ -1,0 +1,10 @@
+<div class="content">
+  {{ $events_categories := "events/filters/events_categories.html" }}
+  {{ if templates.Exists ( printf "partials/%s" $events_categories ) }}
+    {{ partial $events_categories . }}
+  {{ end }}
+  {{ $events_persons := "events/filters/events_persons.html" }}
+  {{ if templates.Exists ( printf "partials/%s" $events_persons ) }}
+    {{ partial $events_persons . }}
+  {{ end }}
+</div>

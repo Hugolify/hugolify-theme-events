@@ -1,0 +1,5 @@
+{{ $hasCategory := partial "func/HasTaxonomyAvailable" (dict "section" "events" "taxonomy" "events_categories") }}
+{{ $hasPerson := partial "func/HasTaxonomyAvailable" (dict "section" "events" "taxonomy" "events_persons") }}
+{{ if or $hasCategory $hasPerson }}
+  <button class="btn-filter" type="button" data-bs-toggle="offcanvas" data-bs-target="#eventsFilters" aria-controls="eventsFilters">{{ i18n "filter" }}</button>
+{{ end }}

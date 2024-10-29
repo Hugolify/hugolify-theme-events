@@ -1,0 +1,25 @@
+.page-events
+    .heading
+        h1
+            min-width: 100%
+    .summary
+        @extend .card
+        .media
+            --bs-aspect-ratio: 43%
+        .date
+            line-height: 1
+        time
+            color: $primary
+            font-size: 2rem
+        .btn
+            @extend .btn-primary
+            white-space: normal
+
+    @include media-breakpoint-up(md)
+        .grid
+            >
+                .content,
+                .toc
+                    grid-row: 2/4
+                .sidebar + .toc
+                    grid-row: 3/6

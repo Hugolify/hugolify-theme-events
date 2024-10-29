@@ -1,0 +1,13 @@
+events:
+  all: Toutes les évènements
+  discover: Découvrir l’évènement
+  latest: Derniers évènements
+  latest_person: Derniers évènements de {{ .Person }}
+  list: Liste des évènements de cette personne
+  list_person: Liste des évènements de {{ .Person }}
+  more: Découvrir plus d’évènements
+  more_person: Découvrir plus d’évènements de {{ .Person }}
+  title:
+    one: Évènement
+    other: Évènements
+  title_person: Évènements de {{ .Person }}

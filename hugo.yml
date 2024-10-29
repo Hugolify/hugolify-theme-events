@@ -1,0 +1,29 @@
+module:
+  mounts:
+    - source: archetypes
+      target: archetypes
+    - source: assets
+      target: assets
+    - source: content
+      target: content
+    - source: i18n
+      target: i18n
+    - source: layouts
+      target: layouts
+
+# Params
+params:
+  admin:
+    collections:
+      events:
+        enable: true
+  events:
+    thumbnail:
+      desktop: '416x179'
+      desktop_large: '636x273'
+      mobile: '300x129'
+      scrollsnap: '240x103'
+
+# Default
+permalinks:
+  events: /events/:slug/

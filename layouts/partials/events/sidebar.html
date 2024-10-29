@@ -1,0 +1,5 @@
+{{- if .Params.event -}}
+<div class="sidebar" {{- partial "func/SetAnim" (dict "element" "sidebar") }}>
+  {{ partial "events/summary.html" . }}
+</div>
+{{- end -}}

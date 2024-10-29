@@ -1,0 +1,13 @@
+events:
+  all: All events
+  discover: Discover event
+  latest: Latest events
+  latest_person: Latest events of {{ .Person }}
+  list: List of events by this person
+  list_person: '{{ .Person }}’s events'
+  more: Discover more events
+  more_person: More events by {{ .Person }}
+  title:
+    one: Event
+    other: Events
+  title_person: Events of {{ .Person }}
