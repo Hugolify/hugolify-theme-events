@@ -9,13 +9,16 @@
   {{- if and $start_date $end_date -}}
     {{- $same_day = cond (eq (time.Format "2006-01-02" $start_date) (time.Format "2006-01-02" $end_date)) true false -}}
     {{- if $same_day -}}
-      {{- $surtitle = "le" -}}
+      {{- $surtitle = i18n "the" -}}
       {{- $the_date = $start_date -}}
     {{- end -}}
   {{- end -}}
   {{- if and (not $start_date) $end_date -}}
-    {{- $surtitle = "jusqu'au" -}}
+    {{- $surtitle = i18n "until" -}}
     {{- $the_date = $end_date -}}
+  {{- else if and $start_date (not $end_date) -}}
+    {{- $surtitle = i18n "the" -}}
+    {{- $the_date = $start_date -}}
   {{- end -}}
 
 <div class="summary">
