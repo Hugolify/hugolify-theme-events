@@ -23,6 +23,14 @@
         .btn + .surtitle
             margin-top: 1rem
 
+    @include media-breakpoint-down(md)
+        .grid
+            >
+                .sidebar
+                    margin-bottom: $grid-gutter-width
+                    margin-top: 0
+                    order: 2
+
     @include media-breakpoint-up(md)
         .grid
             >
