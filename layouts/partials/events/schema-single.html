@@ -15,10 +15,26 @@
     {{ end -}}
 
     {{- with .Params.event }}
-      "startDate": {{ .date_from }},
-      "endDate": {{ .date_to }},
+      {{- with .date_from }}
+      "startDate": {{ . }},
+      {{ end -}}
+      {{- with .date_to }}
+      "endDate": {{ . }},
+      {{ end -}}
       {{- with .cta }}
         "offers": {{ .url }},
+      {{ end -}}
+      {{- with .address }}
+        "location": {
+          "@type": "Place",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": {{ partial "func/PrepareData" .country }},
+            "addressLocality": {{ partial "func/PrepareData" .city }},
+            "postalCode": {{ partial "func/PrepareData" .zipcode }},
+            "streetAddress": {{ partial "func/PrepareData" .street }}
+          }
+        }
       {{ end -}}
     {{ end -}}
 
