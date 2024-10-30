@@ -4,26 +4,30 @@
     "@type": "Event",
     {{- with .Title }}
       "name": {{ partial "func/PrepareData" . }},
-    {{ end -}}
+    {{- end -}}
 
     {{- with .Params.image }}
-      "thumbnailUrl": {{ .src | absURL }},
-    {{ end -}}
+      "image": {{ .src | absURL }},
+    {{- end -}}
 
-    {{- with .Description }}
+    {{- with .Content }}
       "description": {{ partial "func/PrepareData" . }},
-    {{ end -}}
+    {{- else -}}
+      {{- with .Description }}
+        "description": {{ partial "func/PrepareData" . }},
+      {{ end -}}
+    {{- end -}}
 
     {{- with .Params.event }}
       {{- with .date_from }}
       "startDate": {{ . }},
-      {{ end -}}
+      {{- end -}}
       {{- with .date_to }}
       "endDate": {{ . }},
-      {{ end -}}
+      {{- end -}}
       {{- with .cta }}
         "offers": {{ .url }},
-      {{ end -}}
+      {{- end -}}
       {{- with .address }}
         "location": {
           "@type": "Place",
@@ -34,13 +38,9 @@
             "postalCode": {{ partial "func/PrepareData" .zipcode }},
             "streetAddress": {{ partial "func/PrepareData" .street }}
           }
-        }
+        },
       {{ end -}}
-    {{ end -}}
-
-    {{- range .GetTerms "events_categories" }}
-      "articleSection": {{ partial "func/PrepareData" .Title }},
-    {{ end -}}
+    {{- end -}}
 
     {{- range .GetTerms "events_persons" }}
       {{- $author :=  partial "func/GetRealPerson" . -}}
@@ -55,10 +55,5 @@
         },
       {{ end -}}
     {{ end -}}
-
-    {{- with .Content }}
-      "articleBody": {{ partial "func/PrepareData" . }},
-    {{ end -}}
-
   }
 </script>
