@@ -1,5 +1,5 @@
 events:
-  all: Toutes les évènements
+  all: Tous les évènements
   discover: Découvrir l’évènement
   latest: Derniers évènements
   latest_person: Derniers évènements de {{ .Person }}
