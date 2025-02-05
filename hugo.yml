@@ -17,6 +17,8 @@ params:
     collections:
       events:
         enable: true
+        sortable: "[commit_date, title]"
+        summary: "{{title}} - {{date | date('YYYY-MM-DD')}}"
   events:
     thumbnail:
       desktop: '416x179'
