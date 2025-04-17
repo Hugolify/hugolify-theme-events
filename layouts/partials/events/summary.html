@@ -28,14 +28,14 @@
     {{- end -}}
 
     {{- with $the_date -}}
-      <p class="date">{{ partial "commons/time" (dict "date" . "format" ":date_long") }}</p>
+      <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
     {{- end -}}
 
     {{ partial "commons/cta" .cta }}
     
     {{- with .address -}}
       <p class="surtitle">Lieu</p>
-      {{ partial "commons/address" (dict "address" . "direction" false) }}
+      {{ partial "commons/address.html" (dict "address" . "direction" false) }}
     {{- end -}}
   </div>
   {{ with $context.Params.image }}

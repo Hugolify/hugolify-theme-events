@@ -3,7 +3,7 @@
     "@context": "https://schema.org",
     "@type": "Event",
     {{- with .Title }}
-      "name": {{ partial "func/PrepareData" . }},
+      "name": {{ partial "func/PrepareData.html" . }},
     {{- end -}}
 
     {{- with .Params.image }}
@@ -11,10 +11,10 @@
     {{- end -}}
 
     {{- with .Content }}
-      "description": {{ partial "func/PrepareData" . }},
+      "description": {{ partial "func/PrepareData.html" . }},
     {{- else -}}
       {{- with .Description }}
-        "description": {{ partial "func/PrepareData" . }},
+        "description": {{ partial "func/PrepareData.html" . }},
       {{ end -}}
     {{- end -}}
 
@@ -33,10 +33,10 @@
           "@type": "Place",
           "address": {
             "@type": "PostalAddress",
-            "addressCountry": {{ partial "func/PrepareData" .country }},
-            "addressLocality": {{ partial "func/PrepareData" .city }},
-            "postalCode": {{ partial "func/PrepareData" .zipcode }},
-            "streetAddress": {{ partial "func/PrepareData" .street }}
+            "addressCountry": {{ partial "func/PrepareData.html" .country }},
+            "addressLocality": {{ partial "func/PrepareData.html" .city }},
+            "postalCode": {{ partial "func/PrepareData.html" .zipcode }},
+            "streetAddress": {{ partial "func/PrepareData.html" .street }}
           }
         },
       {{ end -}}
@@ -47,9 +47,9 @@
       {{- with $author }}
         "author": {
           "@type": "Person",
-          "name": {{ partial "func/PrepareData" .Title }},
+          "name": {{ partial "func/PrepareData.html" .Title }},
           {{- with .Description }}
-            "description": {{ partial "func/PrepareData" . }},
+            "description": {{ partial "func/PrepareData.html" . }},
           {{ end }}
           "url": {{ .Permalink }}
         },
