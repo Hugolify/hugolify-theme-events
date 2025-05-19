@@ -17,6 +17,8 @@ params:
     collections:
       events:
         enable: true
+        icon:
+          sveltiacms: event
         sortable: "[commit_date, title]"
         summary: "{{title}} - {{date | date('YYYY-MM-DD')}}"
   events:
@@ -28,4 +30,5 @@ params:
 
 # Default
 permalinks:
-  events: /events/:slug/
+  page:
+    events: /events/:slug/
