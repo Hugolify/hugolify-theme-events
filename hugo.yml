@@ -17,9 +17,12 @@ params:
     collections:
       events:
         enable: true
+        filter:
+          - field: isIndex
+            value: false
         icon:
           sveltiacms: event
-        sortable: "[commit_date, title]"
+        sortable: "[date, title]"
         summary: "{{title}} - {{date | date('YYYY-MM-DD')}}"
   events:
     thumbnail:
