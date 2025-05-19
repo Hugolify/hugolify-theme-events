@@ -1,33 +1,42 @@
 {{- $context := . -}}
 {{- $the_date := false -}}
-{{- $surtitle := false -}}
+{{- $start_date := false -}}
+{{- $end_date := false -}}
 {{- $same_day := false -}}
+{{- $two_dates := false -}}
+{{- $surtitle := i18n "the" -}}
 
 {{- with .Params.event }}
-  {{- $start_date := .date_from | default false -}}
-  {{- $end_date := .date_to | default false -}}
+  {{- $start_date = .date_from | default false -}}
+  {{- $end_date = .date_to | default false -}}
   {{- if and $start_date $end_date -}}
+    {{- $two_dates = true -}}
     {{- $same_day = cond (eq (time.Format "2006-01-02" $start_date) (time.Format "2006-01-02" $end_date)) true false -}}
     {{- if $same_day -}}
-      {{- $surtitle = i18n "the" -}}
       {{- $the_date = $start_date -}}
+    {{- else -}}
+      {{- $surtitle = i18n "until" -}}
+      {{- $the_date = $end_date -}}
     {{- end -}}
   {{- end -}}
   {{- if and (not $start_date) $end_date -}}
     {{- $surtitle = i18n "until" -}}
     {{- $the_date = $end_date -}}
   {{- else if and $start_date (not $end_date) -}}
-    {{- $surtitle = i18n "the" -}}
     {{- $the_date = $start_date -}}
   {{- end -}}
 
 <div class="summary">
   <div class="content">
-    {{- with $surtitle -}}
-      <p class="surtitle">{{ . }} {{ $the_date | time.Format "Monday" }}</p>
+    {{- if and $two_dates (not $same_day) -}}
+      {{- with $start_date -}}
+        <p class="surtitle">{{ i18n "from" }} {{ $the_date | time.Format "Monday" }}</p>
+        <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
+      {{- end -}}
     {{- end -}}
 
     {{- with $the_date -}}
+      <p class="surtitle">{{ $surtitle }} {{ . | time.Format "Monday" }}</p>
       <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
     {{- end -}}
 
