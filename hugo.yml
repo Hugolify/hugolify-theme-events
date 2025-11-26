@@ -21,7 +21,12 @@ params:
           - field: isIndex
             value: false
         icon:
-          sveltiacms: event
+          bootstrap_icons: calendar-event
+          iconoir: calendar
+          material_icons: event
+          material_symbols: event
+          lucide: calendar
+          sveltiacms: event # legacy
         sortable: "[date, title]"
         summary: "{{title}} - {{date | date('YYYY-MM-DD')}}"
   events:
