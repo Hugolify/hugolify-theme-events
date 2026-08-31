@@ -4,5 +4,4 @@
   {{ if templates.Exists ( printf "partials/%s" $persons ) }}
     {{ partial $persons . }}
   {{ end }}
-  {{ partial "commons/share" . }}
 </div>
