@@ -1,7 +1,4 @@
 {{- $paginator := .Paginator.Pages -}}
-{{- $atf := true -}}
-{{- if partial "func/HasImageHero.html" . -}}
-  {{- $atf = false -}}
-{{- end -}}
-{{ partial "events/items" (dict "pages" $paginator "abovethefold" $atf) }}
+{{- $abovethefold := cond (partial "func/HasImageHero.html" .) false true -}}
+{{ partial "events/items" (dict "pages" $paginator "abovethefold" $abovethefold) }}
 {{ partial "nav/pagination.html" . }}
