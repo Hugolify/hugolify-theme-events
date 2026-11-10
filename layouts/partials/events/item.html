@@ -1,5 +1,5 @@
-<article class="event" itemscope itemtype="http://schema.org/Event" {{- partial "func/SetAnim.html" (dict "element" "item") }}>
-  {{ partial "events/item/content" . }}
-  {{ partial "events/item/metas" . }}
-  {{ partial "events/item/media" . }}
+<article class="item event" {{- partial "func/SetAnim.html" (dict "element" "item") }}>
+  {{ partial "events/item/content.html" . }}
+  {{ partial "events/item/metas.html" . }}
+  {{ partial "events/item/media.html" . }}
 </article>

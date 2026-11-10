@@ -1,0 +1,9 @@
+/* Do not edit directly, this file was auto-generated. */
+
+/* events.css */
+@layer tokens {
+  :root {
+    --events-min-width: var(--max-width-item);
+    --events-nav-margin-block-start: var(--spacing-fluid-md);
+  }
+}

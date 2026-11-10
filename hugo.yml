@@ -11,8 +11,9 @@ module:
     - source: layouts
       target: layouts
 
-# Params
 params:
+
+  # Hugolify admin
   admin:
     collections:
       events:
@@ -26,15 +27,16 @@ params:
           material_icons: event
           material_symbols: event
           lucide: calendar
-          sveltiacms: event # legacy
-        sortable: "[date, title]"
+        sortable_fields: [date, title]
         summary: "{{title}} - {{date | date('YYYY-MM-DD')}}"
+
+  # Image
   events:
     thumbnail:
       desktop: '416x179'
-      desktop_large: '636x273'
       mobile: '300x129'
       scrollsnap: '240x103'
+      sizes: 100vw, 50vw, 33vw
 
 # Default
 permalinks:

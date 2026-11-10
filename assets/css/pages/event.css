@@ -1,0 +1,35 @@
+/* pages/event.css */
+/*
+ * The summary opens the sidebar of an event page: when the event takes place,
+ * the call to action to book a seat, where it is held, and its image. It is a
+ * .card whose --card-* API is remapped onto the --event-summary-* tokens, so
+ * any value can be tuned from event.json without touching this file.
+ * Usage: <aside class="card summary">
+ */
+@layer pages {
+  .page-events {
+    .summary {
+      --card-border-width: var(--event-summary-border-width);
+      --card-color-background: var(--event-summary-color-background);
+      --card-padding-block: var(--event-summary-padding-block);
+      --card-padding-inline: var(--event-summary-padding-inline);
+
+      .date {
+        color: var(--event-summary-date-color);
+        font-size: var(--event-summary-date-font-size);
+        line-height: var(--event-summary-date-line-height);
+        margin-block: 0;
+      }
+
+      address {
+        margin-block: 0;
+      }
+
+      /* The image runs edge to edge, above the content */
+      .media {
+        margin: 0;
+        max-width: none;
+      }
+    }
+  }
+}

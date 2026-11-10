@@ -1,59 +1,80 @@
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Event",
-    {{- with .Title }}
-      "name": {{ partial "func/PrepareData.html" . }},
-    {{- end -}}
+{{- /* Schema.org for an event: an Event, with what Google reads on one.
 
-    {{- with .Params.image }}
-      "image": {{ .src | absURL }},
-    {{- end -}}
+  Held at the address of the event, and organized by the organization behind
+  the site. An event with no address may well be online: no location is made
+  up for it. Its persons (events-persons module) perform at it, its categories
+  (events-categories module) are its keywords; each taxonomy is only read when
+  the site declares it.
 
-    {{- with .Content }}
-      "description": {{ partial "func/PrepareData.html" . }},
-    {{- else -}}
-      {{- with .Description }}
-        "description": {{ partial "func/PrepareData.html" . }},
-      {{ end -}}
-    {{- end -}}
+  The call to action links to where one books a seat: it becomes the offer,
+  with neither price nor availability since the CMS stores neither. */ -}}
+{{- $event := dict
+  "@type" "Event"
+  "@id" (printf "%s#event" .Permalink)
+  "name" (partial "func/PrepareData.html" .Title)
+  "url" .Permalink
+  "organizer" (partial "func/GetSchemaOrganization.html" (dict "compact" true))
+-}}
 
-    {{- with .Params.event }}
-      {{- with .date_from }}
-      "startDate": {{ . }},
+{{- with .Description -}}
+  {{- $event = merge $event (dict "description" (partial "func/PrepareData.html" .)) -}}
+{{- else -}}
+  {{- with .Summary -}}
+    {{- $event = merge $event (dict "description" (partial "func/PrepareData.html" .)) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with partial "func/GetSchemaImage.html" .Params.image -}}
+  {{- $event = merge $event (dict "image" .) -}}
+{{- end -}}
+
+{{- $address := false -}}
+{{- with .Params.event -}}
+  {{- with partial "func/GetSchemaDate.html" .date_from -}}
+    {{- $event = merge $event (dict "startDate" .) -}}
+  {{- end -}}
+  {{- with partial "func/GetSchemaDate.html" .date_to -}}
+    {{- $event = merge $event (dict "endDate" .) -}}
+  {{- end -}}
+  {{- $address = .address -}}
+  {{- with .cta -}}
+    {{- with .url -}}
+      {{- if ne . "#" -}}
+        {{- $event = merge $event (dict "offers" (dict
+          "@type" "Offer"
+          "url" (absURL .)
+        )) -}}
       {{- end -}}
-      {{- with .date_to }}
-      "endDate": {{ . }},
-      {{- end -}}
-      {{- with .cta }}
-        "offers": {{ .url }},
-      {{- end -}}
-      {{- with .address }}
-        "location": {
-          "@type": "Place",
-          "address": {
-            "@type": "PostalAddress",
-            "addressCountry": {{ partial "func/PrepareData.html" .country }},
-            "addressLocality": {{ partial "func/PrepareData.html" .city }},
-            "postalCode": {{ partial "func/PrepareData.html" .zipcode }},
-            "streetAddress": {{ partial "func/PrepareData.html" .street }}
-          }
-        },
-      {{ end -}}
     {{- end -}}
+  {{- end -}}
+{{- end -}}
 
-    {{- range .GetTerms "events_persons" }}
-      {{- $author :=  partial "func/GetRealPerson" . -}}
-      {{- with $author }}
-        "author": {
-          "@type": "Person",
-          "name": {{ partial "func/PrepareData.html" .Title }},
-          {{- with .Description }}
-            "description": {{ partial "func/PrepareData.html" . }},
-          {{ end }}
-          "url": {{ .Permalink }}
-        },
-      {{ end -}}
-    {{ end -}}
-  }
-</script>
+{{- with partial "func/GetSchemaAddress.html" $address -}}
+  {{- $location := dict "@type" "Place" "address" . -}}
+  {{- with partial "func/GetSchemaGeo.html" $address -}}
+    {{- $location = merge $location (dict "geo" .) -}}
+  {{- end -}}
+  {{- $event = merge $event (dict
+    "location" $location
+    "eventAttendanceMode" "https://schema.org/OfflineEventAttendanceMode"
+  ) -}}
+{{- end -}}
+
+{{- $performers := slice -}}
+{{- range partial "func/GetSchemaTerms.html" (dict "page" . "taxonomy" "events_persons" "format" "page") -}}
+  {{- $performers = $performers | append (partial "func/GetSchemaPerson.html" (dict "page" . "compact" true)) -}}
+{{- end -}}
+{{- with $performers -}}
+  {{- $event = merge $event (dict "performer" .) -}}
+{{- end -}}
+
+{{- with partial "func/GetSchemaTerms.html" (dict "page" . "taxonomy" "events_categories") -}}
+  {{- $event = merge $event (dict "keywords" .) -}}
+{{- end -}}
+
+{{- $webpage := partial "func/GetSchemaWebPage.html" (dict
+  "page" .
+  "mainEntity" (dict "@id" (index $event "@id"))
+) -}}
+
+{{- partial "commons/jsonld.html" (slice $webpage $event) -}}

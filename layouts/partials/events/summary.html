@@ -26,24 +26,24 @@
     {{- $the_date = $start_date -}}
   {{- end -}}
 
-<div class="summary">
+<aside class="card summary">
   <div class="content">
     {{- if and $two_dates (not $same_day) -}}
       {{- with $start_date -}}
-        <p class="surtitle">{{ i18n "from" }} {{ $the_date | time.Format "Monday" }}</p>
-        <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
+        <p class="surtitle">{{ i18n "from" }} {{ . | time.Format "Monday" }}</p>
+        {{ partial "commons/date.html" (dict "date" . "format" ":date_long") }}
       {{- end -}}
     {{- end -}}
 
     {{- with $the_date -}}
       <p class="surtitle">{{ $surtitle }} {{ . | time.Format "Monday" }}</p>
-      <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
+      {{ partial "commons/date.html" (dict "date" . "format" ":date_long") }}
     {{- end -}}
 
-    {{ partial "commons/cta" .cta }}
-    
+    {{ partial "commons/cta.html" .cta }}
+
     {{- with .address -}}
-      <p class="surtitle">Lieu</p>
+      <p class="surtitle">{{ i18n "address.label" 1 }}</p>
       {{ partial "commons/address.html" (dict "address" . "direction" false) }}
     {{- end -}}
   </div>
@@ -61,5 +61,5 @@
       ) }}
     </div>
   {{ end }}
-</div>
+</aside>
 {{- end -}}

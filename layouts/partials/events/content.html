@@ -1,7 +1,7 @@
 <div class="content" {{- partial "func/SetAnim.html" (dict "element" "content") }}>
-  {{ partial "events/body" . }}
-  {{- $persons := "events/events_persons.html" -}}
-  {{ if templates.Exists ( printf "partials/%s" $persons ) }}
-    {{ partial $persons . }}
-  {{ end }}
+  {{ partial "events/body.html" . }}
+  {{- $events_persons := "events/events_persons.html" }}
+  {{- if templates.Exists ( printf "_partials/%s" $events_persons ) }}
+    {{ partial $events_persons . }}
+  {{- end }}
 </div>
