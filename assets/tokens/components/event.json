@@ -1,0 +1,42 @@
+{
+  "event": {
+    "summary": {
+      "border": {
+        "width": {
+          "$value": "0",
+          "$type": "dimension"
+        }
+      },
+      "color": {
+        "background": {
+          "$value": "{color.background.muted}",
+          "$type": "color"
+        }
+      },
+      "date": {
+        "color": {
+          "$value": "{color.brand}",
+          "$type": "color"
+        },
+        "fontSize": {
+          "$value": "{fontSize.lg}",
+          "$type": "dimension"
+        },
+        "lineHeight": {
+          "$value": "{lineHeight.none}",
+          "$type": "number"
+        }
+      },
+      "padding": {
+        "block": {
+          "$value": "{spacing.md}",
+          "$type": "dimension"
+        },
+        "inline": {
+          "$value": "{spacing.md}",
+          "$type": "dimension"
+        }
+      }
+    }
+  }
+}

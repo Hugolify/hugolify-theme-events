@@ -1,3 +1,7 @@
+{{- /* The summary of an event: its dates, its call to action, its address and
+       its image. The archetype and the CMS write every key of the event, set
+       or not, so each part shows only when it holds something, and the card
+       only when one of them does. */ -}}
 {{- $context := . -}}
 {{- $the_date := false -}}
 {{- $start_date := false -}}
@@ -26,28 +30,38 @@
     {{- $the_date = $start_date -}}
   {{- end -}}
 
-<div class="summary">
+  {{- $cta := partial "commons/cta.html" .cta | strings.TrimSpace -}}
+  {{- $address := partial "commons/address.html" (dict "address" .address "direction" false) | strings.TrimSpace -}}
+  {{- $image := false -}}
+  {{- with $context.Params.image -}}
+    {{- if .src -}}{{- $image = . -}}{{- end -}}
+  {{- end -}}
+
+  {{- if or $the_date $cta $address $image }}
+<aside class="card summary">
   <div class="content">
     {{- if and $two_dates (not $same_day) -}}
       {{- with $start_date -}}
-        <p class="surtitle">{{ i18n "from" }} {{ $the_date | time.Format "Monday" }}</p>
-        <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
+        <p class="surtitle">{{ i18n "from" }} {{ . | time.Format "Monday" }}</p>
+        {{ partial "commons/date.html" (dict "date" . "format" ":date_long") }}
       {{- end -}}
     {{- end -}}
 
     {{- with $the_date -}}
       <p class="surtitle">{{ $surtitle }} {{ . | time.Format "Monday" }}</p>
-      <p class="date">{{ partial "commons/time.html" (dict "date" . "format" ":date_long") }}</p>
+      {{ partial "commons/date.html" (dict "date" . "format" ":date_long") }}
     {{- end -}}
 
-    {{ partial "commons/cta" .cta }}
-    
-    {{- with .address -}}
-      <p class="surtitle">Lieu</p>
-      {{ partial "commons/address.html" (dict "address" . "direction" false) }}
+    {{- with $cta }}
+      {{ . | safeHTML }}
+    {{- end -}}
+
+    {{- with $address }}
+      <p class="surtitle">{{ i18n "address.label" 1 }}</p>
+      {{ . | safeHTML }}
     {{- end -}}
   </div>
-  {{ with $context.Params.image }}
+  {{- with $image }}
     <div class="media">
       {{- $desktop := site.Params.events.thumbnail.desktop | default false -}}
       {{- $mobile := site.Params.events.thumbnail.mobile | default false -}}
@@ -60,6 +74,7 @@
         "lazy" false
       ) }}
     </div>
-  {{ end }}
-</div>
+  {{- end }}
+</aside>
+  {{- end }}
 {{- end -}}

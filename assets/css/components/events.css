@@ -1,0 +1,12 @@
+/* components/events.css */
+/*
+ * .events remaps the full --items-* API onto its --events-* tokens, so any
+ * value can be tuned from events.json without touching this file.
+ * Usage: <article class="items events">
+ */
+@layer components {
+  .events {
+    --items-min-width: var(--events-min-width);
+    --items-nav-margin-block-start: var(--events-nav-margin-block-start);
+  }
+}

@@ -1,8 +1,8 @@
-<a href="{{ .Permalink }}" itemprop="url" class="content">
-  {{- $events_categories := "events/item/events_categories.html" -}}
-  {{- if templates.Exists ( printf "partials/%s" $events_categories ) }}
+<a href="{{ .Permalink }}" class="content">
+  {{- $events_categories := "events/item/events_categories.html" }}
+  {{- if templates.Exists ( printf "_partials/%s" $events_categories ) }}
     {{ partial $events_categories . }}
-  {{ end -}}
-  {{ partial "commons/item/title" . }}
-  {{ partial "commons/item/description" . }}
+  {{- end }}
+  {{ partial "commons/item/title.html" . }}
+  {{ partial "commons/item/description.html" . }}
 </a>

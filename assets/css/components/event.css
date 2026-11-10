@@ -1,0 +1,7 @@
+/* components/event.css */
+/*
+ * .event remaps the full --item-* API (and the inner --btn-*) onto its
+ * --event-* tokens, so any value can be tuned from event.json without
+ * touching this file.
+ * Usage: <article class="item event">
+ */

@@ -1,0 +1,14 @@
+/* Do not edit directly, this file was auto-generated. */
+
+/* event.css */
+@layer tokens {
+  :root {
+    --event-summary-border-width: 0;
+    --event-summary-color-background: var(--color-background-muted);
+    --event-summary-date-color: var(--color-brand);
+    --event-summary-date-font-size: var(--font-size-lg);
+    --event-summary-date-line-height: var(--line-height-none);
+    --event-summary-padding-block: var(--spacing-md);
+    --event-summary-padding-inline: var(--spacing-md);
+  }
+}
