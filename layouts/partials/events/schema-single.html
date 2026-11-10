@@ -7,7 +7,11 @@
   the site declares it.
 
   The call to action links to where one books a seat: it becomes the offer,
-  with neither price nor availability since the CMS stores neither. */ -}}
+  with neither price nor availability since the CMS stores neither. An email
+  address or a phone number is no page to book on: it makes no offer.
+
+  Its image is the featured image, carrying the @id the WebPage gives its
+  primary image so both copies merge, see func/GetSchemaImages.html. */ -}}
 {{- $event := dict
   "@type" "Event"
   "@id" (printf "%s#event" .Permalink)
@@ -24,7 +28,7 @@
   {{- end -}}
 {{- end -}}
 
-{{- with partial "func/GetSchemaImage.html" .Params.image -}}
+{{- with partial "func/GetSchemaImages.html" (dict "page" .) -}}
   {{- $event = merge $event (dict "image" .) -}}
 {{- end -}}
 
@@ -39,7 +43,7 @@
   {{- $address = .address -}}
   {{- with .cta -}}
     {{- with .url -}}
-      {{- if ne . "#" -}}
+      {{- if not (or (eq . "#") (hasPrefix . "mailto:") (hasPrefix . "tel:")) -}}
         {{- $event = merge $event (dict "offers" (dict
           "@type" "Offer"
           "url" (absURL .)

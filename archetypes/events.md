@@ -7,6 +7,15 @@ description:
 events_categories:
 events_persons:
 image:
-  src:
 event:
+  date_from:
+  date_to:
+  cta:
+    text:
+    url:
+  address:
+    street:
+    zipcode:
+    city:
+    country_code:
 ---
