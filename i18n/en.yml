@@ -1,5 +1,12 @@
 events:
   all: All events
+  calendar:
+    google: Google Calendar
+    ics: Download the .ics file
+    office365: Microsoft 365
+    outlook: Outlook.com
+    title: Add to calendar
+    yahoo: Yahoo Calendar
   discover: Discover event
   latest: Latest events
   latest_person: Latest events of {{ .Person }}

@@ -4,6 +4,7 @@
 @import '../tokens/events.css';
 
 /* Components */
+@import '../components/btn-calendar.css';
 @import '../components/event.css';
 @import '../components/events.css';
 

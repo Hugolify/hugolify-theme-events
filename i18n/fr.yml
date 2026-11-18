@@ -1,5 +1,12 @@
 events:
   all: Tous les évènements
+  calendar:
+    google: Google Agenda
+    ics: Télécharger le fichier .ics
+    office365: Microsoft 365
+    outlook: Outlook.com
+    title: Ajouter à mon agenda
+    yahoo: Agenda Yahoo
   discover: Découvrir l’évènement
   latest: Derniers évènements
   latest_person: Derniers évènements de {{ .Person }}

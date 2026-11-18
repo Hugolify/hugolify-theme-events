@@ -1,3 +1,4 @@
 /* events.css: barrel, do not edit */
+@import "./components/btn-calendar.css";
 @import "./components/event.css";
 @import "./components/events.css";

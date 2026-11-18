@@ -1,0 +1,28 @@
+/* components/btn-calendar.css */
+/*
+ * .btn-calendar opens the "add to calendar" menu of an event. It mirrors
+ * .btn-share from @uncinq/css-components, so both sit side by side in the
+ * sidebar with the same look: control colours, an icon drawn on ::before
+ * from --btn-calendar-icon (btn-calendar.json).
+ * Usage: <button class="btn btn-calendar js-dropdown-toggle">
+ */
+@layer components {
+  .btn-calendar {
+    /* Scope --btn-color-* to control values, allow per-button overrides */
+    --btn-color-background: var(--btn-calendar-color-background, var(--btn-control-color-background));
+    --btn-color-background-hover: var(--btn-calendar-color-background-hover, var(--btn-control-color-background-hover));
+    --btn-color-border: var(--btn-calendar-color-border, var(--btn-control-color-border));
+    --btn-color-border-hover: var(--btn-calendar-color-border-hover, var(--btn-control-color-border-hover));
+    --btn-color-text: var(--btn-calendar-color-text, var(--btn-control-color-text));
+    --btn-color-text-hover: var(--btn-calendar-color-text-hover, var(--btn-control-color-text-hover));
+
+    &::before {
+      background-color: currentColor;
+      content: '';
+      flex-shrink: 0;
+      height: var(--btn-calendar-icon-size, var(--icon-size));
+      mask: var(--btn-calendar-icon) center / var(--btn-calendar-icon-size, var(--icon-size)) no-repeat;
+      width: var(--btn-calendar-icon-size, var(--icon-size));
+    }
+  }
+}

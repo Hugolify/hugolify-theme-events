@@ -1,0 +1,8 @@
+/* Do not edit directly, this file was auto-generated. */
+
+/* btn-calendar.css */
+@layer tokens {
+  :root {
+    --btn-calendar-icon: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23000000%22 stroke-width=%221.5%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M16 18h6%22/><path d=%22M16 2v3%22/><path d=%22M19 15v6%22/><path d=%22M21 11.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8.3%22/><path d=%22M3 9h18%22/><path d=%22M8 2v3%22/></svg>');
+  }
+}

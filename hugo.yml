@@ -30,8 +30,14 @@ params:
         sortable_fields: [date, title]
         summary: "{{title}} - {{date | date('YYYY-MM-DD')}}"
 
-  # Image
   events:
+    # "Add to calendar" menu on each upcoming event, its .ics file published
+    # next to the page: /events/:slug/event.ics
+    # providers: google, ics, office365 (work or school), outlook (personal), yahoo
+    calendar:
+      enable: true
+      providers: [google, ics, office365, outlook, yahoo]
+    # Image
     thumbnail:
       desktop: '416x179'
       mobile: '300x129'

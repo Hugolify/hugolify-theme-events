@@ -1,0 +1,69 @@
+{{- /*
+  The URL that opens a calendar service on a new event, already filled in.
+
+  @param  {map}     event     The event, as returned by events/calendar/event.html.
+  @param  {string}  provider  google, office365, outlook or yahoo.
+  @return {string}            The URL, empty for any other provider.
+
+  @example
+    {{ partial "events/calendar/url.html" (dict "event" $event "provider" "google") }}
+*/ -}}
+
+{{- $event := .event -}}
+{{- $base := "" -}}
+{{- $params := dict -}}
+
+{{- if eq .provider "google" -}}
+  {{- $base = "https://calendar.google.com/calendar/render" -}}
+  {{- $params = dict
+    "action" "TEMPLATE"
+    "text" $event.title
+    "dates" (printf "%s/%s" $event.start $event.end)
+    "details" $event.description
+    "location" $event.location
+  -}}
+
+{{- else if in (slice "office365" "outlook") .provider -}}
+  {{- /* Microsoft 365 for work or school accounts, Outlook.com for personal ones */ -}}
+  {{- $base = cond (eq .provider "office365")
+    "https://outlook.office.com/calendar/0/action/compose"
+    "https://outlook.live.com/calendar/0/action/compose"
+  -}}
+  {{- $params = dict
+    "rru" "addevent"
+    "subject" $event.title
+    "startdt" $event.start_iso
+    "enddt" $event.end_iso
+    "allday" (cond $event.allday "true" "false")
+    "body" $event.description
+    "location" $event.location
+  -}}
+
+{{- else if eq .provider "yahoo" -}}
+  {{- $base = "https://calendar.yahoo.com/" -}}
+  {{- $params = dict
+    "v" "60"
+    "title" $event.title
+    "st" $event.start
+    "et" $event.end
+    "desc" $event.description
+    "in_loc" $event.location
+  -}}
+  {{- if $event.allday -}}
+    {{- $params = merge $params (dict "dur" "allday") -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $url := "" -}}
+{{- with $base -}}
+  {{- $query := slice -}}
+  {{- range $key, $value := $params -}}
+    {{- with $value -}}
+      {{- /* Spaces as %20: Outlook prints a + as it is */ -}}
+      {{- $query = $query | append (printf "%s=%s" $key (replace (urlquery .) "+" "%20")) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $url = printf "%s?%s" . (delimit $query "&") -}}
+{{- end -}}
+
+{{- return $url -}}

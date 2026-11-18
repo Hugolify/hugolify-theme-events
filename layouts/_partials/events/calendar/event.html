@@ -1,0 +1,104 @@
+{{- /*
+  The event as a calendar reads it, shared by the "add to calendar" links and
+  the .ics file: what, when, where, and the page it comes from.
+
+  Dates are typed without an offset and read in the timeZone of the site. When
+  the site sets one, they are true instants, written in UTC (the Z suffix) so
+  each calendar shows them in its own zone. Without one Hugo reads them as UTC,
+  which they are not: they stay floating, the same hour in every zone, just as
+  the page shows them.
+
+  A start and an end at midnight make an all-day event, as does a day picked
+  with no time of day. Its end is the day after the last one, calendars reading
+  an end date as excluded. A timed event without an end lasts one hour.
+
+  Returns false when `params.events.calendar.enable` is off, and for an event
+  without a start date or already over at build time.
+
+  @context {page}  .  The event page.
+  @return  {map|boolean}
+    - page         (page)    the event page
+    - title        (string)  plain text
+    - description  (string)  plain text, ending with the URL of the page
+    - location     (string)  the address on one line, empty without one
+    - allday       (boolean)
+    - start, end   (string)  basic format: 20261204T173000Z, 20261204T183000
+                             or 20261204 for a day
+    - start_iso,   (string)  extended format: 2026-12-04T17:30:00Z,
+      end_iso                2026-12-04T18:30:00 or 2026-12-04
+
+  @example
+    {{ with partial "events/calendar/event.html" . }}{{ .start }}{{ end }}
+*/ -}}
+
+{{- $page := . -}}
+{{- $event := false -}}
+{{- $start := false -}}
+{{- $end := false -}}
+
+{{- if site.Params.events.calendar.enable -}}
+  {{- with $page.Params.event -}}
+    {{- with .date_from }}{{ $start = time.AsTime . }}{{ end -}}
+    {{- with .date_to }}{{ $end = time.AsTime . }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $start -}}
+  {{- /* An end before the start is a typo, not a date */ -}}
+  {{- if and $end ($end.Before $start) }}{{ $end = false }}{{ end -}}
+
+  {{- $allday := and
+    (eq ($start.Format "15:04:05") "00:00:00")
+    (or (not $end) (eq ($end.Format "15:04:05") "00:00:00"))
+  -}}
+  {{- if $allday -}}
+    {{- /* Not `default`, which keeps a false */ -}}
+    {{- $last := cond (not $end) $start $end -}}
+    {{- $end = $last.AddDate 0 0 1 -}}
+  {{- else if not $end -}}
+    {{- $end = $start.Add (time.ParseDuration "1h") -}}
+  {{- end -}}
+
+  {{- if not ($end.Before now) -}}
+    {{- $utc := ne $start.Location.String "UTC" -}}
+    {{- $basic := "20060102T150405" -}}
+    {{- $extended := "2006-01-02T15:04:05" -}}
+    {{- if $allday -}}
+      {{- $basic = "20060102" -}}
+      {{- $extended = "2006-01-02" -}}
+    {{- else if $utc -}}
+      {{- $start = $start.UTC -}}
+      {{- $end = $end.UTC -}}
+      {{- $basic = printf "%sZ" $basic -}}
+      {{- $extended = printf "%sZ" $extended -}}
+    {{- end -}}
+
+    {{- $description := $page.Permalink -}}
+    {{- with partial "func/PrepareData.html" ($page.Description | default $page.Summary) -}}
+      {{- $description = printf "%s\n\n%s" . $page.Permalink -}}
+    {{- end -}}
+
+    {{- $location := slice -}}
+    {{- with $page.Params.event.address -}}
+      {{- with .street }}{{ $location = $location | append (replaceRE `\s*\n\s*` ", " .) }}{{ end -}}
+      {{- with printf "%v %v" (.zipcode | default "") (.city | default "") | strings.TrimSpace -}}
+        {{- $location = $location | append . -}}
+      {{- end -}}
+      {{- with partial "func/GetAddressCountry.html" . }}{{ $location = $location | append . }}{{ end -}}
+    {{- end -}}
+
+    {{- $event = dict
+      "page" $page
+      "title" (partial "func/PrepareData.html" $page.Title)
+      "description" $description
+      "location" (partial "func/PrepareData.html" (delimit $location ", "))
+      "allday" $allday
+      "start" ($start.Format $basic)
+      "end" ($end.Format $basic)
+      "start_iso" ($start.Format $extended)
+      "end_iso" ($end.Format $extended)
+    -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $event -}}

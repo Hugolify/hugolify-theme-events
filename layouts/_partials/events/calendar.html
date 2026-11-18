@@ -1,0 +1,59 @@
+{{- /*
+  "Add to calendar" menu of an event: one entry per calendar service listed in
+  `params.events.calendar.providers`, in that order. A service opens on a new
+  event, already filled in. "ics" downloads the iCalendar file instead, for
+  Apple Calendar, Thunderbird or any other calendar: served as text/calendar,
+  it opens the calendar of a phone right away, which a download attribute
+  would turn into a file to find among the downloads.
+
+  Renders nothing when `params.events.calendar.enable` is off, and for an
+  event without a start date or already over, see events/calendar/event.html.
+
+  @context {page}  .  The event page.
+
+  @example  {{ partial "events/calendar.html" . }}
+*/ -}}
+
+{{- with partial "events/calendar/event.html" . -}}
+  {{- $event := . -}}
+
+  {{- $links := slice -}}
+  {{- range site.Params.events.calendar.providers -}}
+    {{- if eq . "ics" -}}
+      {{- with partial "events/calendar/ics.html" $event -}}
+        {{- $links = $links | append (dict
+          "label" (i18n "events.calendar.ics")
+          "url" .RelPermalink
+          "type" .MediaType.Type
+        ) -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $provider := . -}}
+      {{- with partial "events/calendar/url.html" (dict "event" $event "provider" $provider) -}}
+        {{- $links = $links | append (dict
+          "label" (i18n (printf "events.calendar.%s" $provider))
+          "url" .
+        ) -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{- with $links }}
+<div class="calendar dropdown" {{- partial "func/SetSearchIgnore.html" . }}>
+  <button type="button" class="btn btn-calendar js-dropdown-toggle" aria-expanded="false">
+    {{- i18n "events.calendar.title" -}}
+  </button>
+  <ul class="dropdown-menu">
+    {{- range . }}
+    <li>
+      {{- if .type }}
+      <a href="{{ .url }}" type="{{ .type }}">{{ .label }}</a>
+      {{- else }}
+      <a href="{{ .url }}" target="_blank" rel="noopener" title="{{ i18n "link.blank_aria" (dict "Title" .label) }}">{{ .label }}</a>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ul>
+</div>
+  {{- end }}
+{{- end -}}
