@@ -23,6 +23,7 @@ params:
             value: false
         icon:
           bootstrap_icons: calendar-event
+          hugeicons: Calendar03
           iconoir: calendar
           material_icons: event
           material_symbols: event
